@@ -68,6 +68,8 @@ void initialiser(personnage *p)
     p->frame=0;
 p->direction=0;
 p->stable=1;
+p->score=100;
+p->vie=3;
 }
 void afficher_perso(personnage * p , SDL_Surface *screen)
 {
@@ -81,7 +83,6 @@ void anim_right(personnage *p)
     if (p->frame <0 || p->frame > 14) p->frame=0;
 
 }
-
 
 void anim_left(personnage *p)
 {    p->frame++;
@@ -106,5 +107,21 @@ if (p->direction==1){
     if (p->frame <45 || p->frame > 59) p->frame=45;
     }
 
+
+}
+
+void mvt_perso_droite(personnage *p, int mvtx){
+
+  anim_right(p);
+  if (p->perso_pos.x < 1000)
+          p->perso_pos.x += mvtx;
+p->direction=0;
+
+}
+void mvt_perso_gauche(personnage *p ,int mvtx){
+
+anim_left(p);
+  p->perso_pos.x -= mvtx;
+    p->direction=1;
 
 }
