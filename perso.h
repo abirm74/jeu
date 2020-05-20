@@ -17,6 +17,8 @@ SDL_Rect animation[60];
 int frame; // pour parcourir tab animation : taswira 1 / 2 / 3 ....
 int direction; //right = 0 ; left =1
 int stable; // vrai = 1 ; faux=0
+int vie;
+int score;
 }personnage ;
 
 void init_tab_anim(SDL_Rect* clip); //t3abi tab animation
@@ -25,5 +27,7 @@ void afficher_perso(personnage * p , SDL_Surface *screen);
 void anim_right(personnage *p);
 void anim_left(personnage *p);
 void anim_stable(personnage *p);
+void mvt_perso_droite(personnage *p, int mvtx);
+void mvt_perso_gauche(personnage *p, int mvtx);
 
-#endif 
+#endif
