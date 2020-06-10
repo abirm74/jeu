@@ -13,44 +13,43 @@
 
 int main()
 {
-    int hauteur_fenetre = 800,
+    int hauteur_fenetre = 700,
         largeur_fenetre = 1100;
 
-   
+
 
     SDL_Init(SDL_INIT_VIDEO);
 
     //FENETRE PRINCIPALE
     SDL_Surface *screen = NULL;
     screen = SDL_SetVideoMode(largeur_fenetre, hauteur_fenetre, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-    SDL_WM_SetCaption("My Game", NULL); // titre de la fenetre
+    SDL_WM_SetCaption("Avaritia", NULL); // titre de la fenetre
 
-    //afficher le menu
-    int menu=-1;
-
-    do 
-    {
-menu=afficher_menu(screen);
-    switch (menu)
+//afficher le menu
+    int action =-1;
+ int c =-1;
+    do
+    {if (c!=-1) {action=c;c=-1;}
+if (c==-1 && action != 0) 
+afficher_menu(screen , &action );
+    switch (action)
 {
-case 1: 
-stage1(screen);
+case 1:
+stage1(screen, &c);
 break;
 case 2 :
-
- afficher_option( screen);
+ afficher_option( screen, &c );
 break;
 case 3 :
-//credit 
+//credit
 break;
 
 }
 
 
-  
-    }while (menu!=0);
-   
-    SDL_Quit();
 
+    }while (action != 0);
+
+    SDL_Quit();
     return 0;
 }

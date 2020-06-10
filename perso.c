@@ -1,4 +1,7 @@
-#include "perso.h"
+
+ #include "perso.h"
+
+
 
 int nb_frames_p = 15;
 void init_tab_anim(SDL_Rect *clip)
@@ -59,22 +62,37 @@ void init_tab_anim(SDL_Rect *clip)
     }
 }
 
-void initialiser(personnage *p)
+void initialiser(personnage *p,pointeur *pt, int x)
 {
     p->perso = IMG_Load("graphic/run.png");
-    p->perso_pos.x = 300;
-    p->perso_pos.y = 300;
+    p->perso_pos.x = 30;
+    p->perso_pos.y = 460;
+    p->perso_pos_relative.x = 30;
+    p->perso_pos_relative.y = 460;
+    p->perso_pos.w = 100;
+    p->perso_pos.h = 100;
+    p->perso_pos_relative.h = 100;
+    p->perso_pos_relative.w = 100;
     init_tab_anim(p->animation);
     p->frame=0;
 p->direction=0;
 p->stable=1;
 p->score=100;
-p->vie=3;
+p->vie=30;
+p->nb_perso=x;
+
+ pt->point = IMG_Load("graphic/point.png");
+    pt->point_pos.x = 6;
+    pt->point_pos.y = 111;
+    pt->point_pos_relative.x = 4;
+    pt->point_pos_relative.y = 111;
+   
+p->nb_perso=x;
 }
-void afficher_perso(personnage * p , SDL_Surface *screen)
+void afficher_perso(personnage * p ,pointeur *pt, SDL_Surface *screen)
 {
    SDL_BlitSurface(p->perso,&p->animation[p->frame], screen, &p->perso_pos);
-
+   SDL_BlitSurface(pt->point,NULL, screen, &pt->point_pos);
 
 }
 void anim_right(personnage *p)
@@ -110,18 +128,39 @@ if (p->direction==1){
 
 }
 
-void mvt_perso_droite(personnage *p, int mvtx){
+void mvt_perso_droite(personnage *p,pointeur *pt, int mvtx){
 
   anim_right(p);
-  if (p->perso_pos.x < 1000)
+  if (p->perso_pos.x < 1000){
           p->perso_pos.x += mvtx;
-p->direction=0;
-
+          // pointeur
+         pt->point_pos.x += (mvtx/5);
 }
-void mvt_perso_gauche(personnage *p ,int mvtx){
+          if (p->perso_pos_relative.x < 1250){
+          p->perso_pos_relative.x += mvtx;
+          //pointeur
+          pt->point_pos_relative.x += (mvtx/5);
+            
+}
+p->direction=0;
+  p->stable=0;
+}
+
+void mvt_perso_gauche(personnage *p,pointeur *pt ,int mvtx){
 
 anim_left(p);
   p->perso_pos.x -= mvtx;
+    p->perso_pos_relative.x -= mvtx;
+//pointeur
+pt->point_pos.x -= (mvtx/5);
+pt->point_pos_relative.x -= (mvtx/5);
     p->direction=1;
-
+  p->stable=0;
 }
+int gameover(personnage *p){
+  if(p->vie<=0 || p->score<= 0)
+  return 1; // lose
+  return 0; // keep playing
+}
+
+ 
